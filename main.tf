@@ -30,8 +30,8 @@ provider "aws" {
 resource "random_pet" "sg" {}
 
 resource "aws_instance" "web" {
-  ami                    = "ami-830c94e3"
-  instance_type          = "t2.micro"
+  ami                    = "ami-408c7f28"
+  instance_type          = "t1.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
   user_data = <<-EOF
