@@ -25,12 +25,27 @@ provider "aws" {
   region = "us-west-2"
 }
 
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
 
 
 resource "random_pet" "sg" {}
 
 resource "aws_instance" "web" {
-  ami                    = "ami-408c7f28"
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t1.micro"
   vpc_security_group_ids = [aws_security_group.web-sg.id]
 
